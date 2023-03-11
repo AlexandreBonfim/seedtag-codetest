@@ -1,15 +1,10 @@
-import fastify from 'fastify'
-
-const app = fastify()
-
-app.get('/hey', () => {
-  return 'Hey Seedtag XD'
-})
+import { app } from './app'
 
 app
   .listen({
-    port: 3333,
+    host: '0.0.0.0',
+    port: 8888,
   })
   .then(() => {
-    console.log('Server running on port 3333')
+    console.log('Server running on port 3333 🚀')
   })
