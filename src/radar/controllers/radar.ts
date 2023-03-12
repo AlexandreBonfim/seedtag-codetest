@@ -3,25 +3,38 @@ import { z } from 'zod'
 import { applyProtocols } from '../services/applyProtocols'
 
 export async function radar(request: FastifyRequest, reply: FastifyReply) {
-  const coordinates = z.object({
-    x: z.number(),
-    y: z.number(),
+  const coordinatesSchema = z.object({
+    x: z.number().int(),
+    y: z.number().int(),
   })
 
-  const enemies = z.object({
+  const enemiesSchema = z.object({
     type: z.enum(['soldier', 'mech']),
-    number: z.number(),
+    number: z.number().int().positive(),
   })
 
-  const scanner = z.object({
-    coordinates,
-    enemies,
-    allies: z.number().optional(),
-  })
+  const scanSchema = z.array(
+    z.object({
+      coordinates: coordinatesSchema,
+      allies: z.number().int().nonnegative().optional(),
+      enemies: enemiesSchema,
+    }),
+  )
+
+  const protocolsSchema = z.array(
+    z.enum([
+      'closest-enemies',
+      'furthest-enemies',
+      'assist-allies',
+      'avoid-crossfire',
+      'prioritize-mech',
+      'avoid-mech',
+    ]),
+  )
 
   const radarBodySchema = z.object({
-    protocols: z.array(z.string()).min(1).max(3),
-    scan: z.array(scanner),
+    protocols: protocolsSchema,
+    scan: scanSchema,
   })
 
   const { protocols, scan } = radarBodySchema.parse(request.body)

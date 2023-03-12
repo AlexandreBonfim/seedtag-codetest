@@ -6,16 +6,13 @@ export type Protocol =
   | 'prioritize-mech'
   | 'avoid-mech'
 
-export type Coordinate = {
-  x: number
-  y: number
-}
-
 export type Scan = {
-  coordinates: Coordinate
+  coordinates: { x: number; y: number }
   enemies: {
     type: 'soldier' | 'mech'
     number: number
   }
   allies?: number
 }
+
+export type ProtocolFunction = (scan: Scan[]) => Scan[]

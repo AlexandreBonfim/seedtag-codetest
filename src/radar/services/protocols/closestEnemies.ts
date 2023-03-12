@@ -1,14 +1,10 @@
 import { Scan } from '../../types'
+import pythagoreanResult from '../pythagoreanResult'
 
 function closestEnemies(scan: Scan[]): Scan[] {
   const closest = scan.reduce((prev, curr) => {
-    const prevDist = Math.sqrt(
-      prev.coordinates.x ** 2 + prev.coordinates.y ** 2,
-    )
-
-    const currDist = Math.sqrt(
-      curr.coordinates.x ** 2 + curr.coordinates.y ** 2,
-    )
+    const prevDist = pythagoreanResult(prev.coordinates.x, prev.coordinates.y)
+    const currDist = pythagoreanResult(curr.coordinates.x, curr.coordinates.y)
 
     return prevDist < currDist ? prev : curr
   })
