@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { applyProtocols } from '../services/applyProtocols'
+import { attackPlan } from '../services/attackPlan'
 
 export async function radar(request: FastifyRequest, reply: FastifyReply) {
   const coordinatesSchema = z.object({
@@ -40,7 +40,7 @@ export async function radar(request: FastifyRequest, reply: FastifyReply) {
   const { protocols, scan } = radarBodySchema.parse(request.body)
 
   try {
-    const target = await applyProtocols(protocols, scan)
+    const target = attackPlan(protocols, scan)
 
     reply.status(200).send(target)
   } catch (error) {
