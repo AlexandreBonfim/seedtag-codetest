@@ -1,7 +1,7 @@
-import { Scan } from '../../types'
-import pythagoreanResult from '../pythagoreanResult'
+import pythagoreanResult from '../../../lib/pythagoreanResult'
+import { RadarPoint } from '../../types'
 
-export default function safeRange(scan: Scan[]): Scan[] {
+export default function safeRange(scan: RadarPoint[]): RadarPoint[] {
   // Filter out targets that are too far away
   return scan.filter((item) => {
     const distance = pythagoreanResult(item.coordinates.x, item.coordinates.y)

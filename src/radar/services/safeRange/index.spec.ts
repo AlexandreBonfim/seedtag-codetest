@@ -1,18 +1,33 @@
-import { describe, it, expect } from 'vitest'
-import safeRange from '.'
-import { Scan } from '../../types'
+import { expect, describe, it } from '@jest/globals'
 
-const scan: Scan[] = [
+import safeRange from '.'
+import { RadarPoint } from '../../types'
+
+const scan: RadarPoint[] = [
   { coordinates: { x: 0, y: 40 }, enemies: { type: 'soldier', number: 10 } },
   { coordinates: { x: 90, y: 80 }, enemies: { type: 'mech', number: 1 } },
 ]
 
-const filteredScan: Scan[] = [
-  { coordinates: { x: 0, y: 40 }, enemies: { type: 'soldier', number: 10 } },
+const unsafeScan: RadarPoint[] = [
+  { coordinates: { x: 90, y: 70 }, enemies: { type: 'soldier', number: 10 } },
+  { coordinates: { x: 90, y: 80 }, enemies: { type: 'mech', number: 1 } },
 ]
 
 describe('Safe range', () => {
-  it('should return scan with 1 item', () => {
-    expect(safeRange(scan)).toEqual(filteredScan)
+  describe('when distance is within safe range', () => {
+    it('should return scan wtesth 1 item', () => {
+      expect(safeRange(scan)).toEqual([
+        {
+          coordinates: { x: 0, y: 40 },
+          enemies: { type: 'soldier', number: 10 },
+        },
+      ])
+    })
+  })
+
+  describe('when distance is out safe range', () => {
+    it('should return empty array', () => {
+      expect(safeRange(unsafeScan)).toEqual([])
+    })
   })
 })

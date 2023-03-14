@@ -1,4 +1,4 @@
-export type Protocol =
+export type ProtocolType =
   | 'closest-enemies'
   | 'furthest-enemies'
   | 'assist-allies'
@@ -6,7 +6,7 @@ export type Protocol =
   | 'prioritize-mech'
   | 'avoid-mech'
 
-export type Scan = {
+export type RadarPoint = {
   coordinates: { x: number; y: number }
   enemies: {
     type: 'soldier' | 'mech'
@@ -15,4 +15,4 @@ export type Scan = {
   allies?: number
 }
 
-export type ProtocolFunction = (scan: Scan[]) => Scan[]
+export type RadarResponse = { x: number; y: number }

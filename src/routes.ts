@@ -1,6 +1,10 @@
 import { FastifyInstance } from 'fastify'
-import { radar } from './radar/controllers/radar'
+import { RadarController } from './radar/controllers'
+
+const controller = new RadarController()
 
 export async function appRoutes(app: FastifyInstance) {
-  app.post('/radar', radar)
+  app.post('/radar', async (request, reply) => {
+    await controller.handle(request, reply)
+  })
 }
